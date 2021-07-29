@@ -1,0 +1,13 @@
+{% extends "blog/base.html" %}
+
+{% block title %}User profile{% endblock %}
+
+{% block content %}
+
+    <p>{{ object.username }}</p>
+    <p>{{ object.email }}</p>
+    <p><a href="{% url "blog:user-post-list" %}">My posts: </a>{{ posts_count }}</p>
+    <p><a href="{% url "update_profile" %}">Update profile</a></p>
+    <p><a href="{% url "logout" %}">Log out</a></p>
+
+{% endblock %}
