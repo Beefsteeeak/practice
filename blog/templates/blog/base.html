@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,7 @@
     {% block extra_css %}
     {% endblock %}
     {% block extra_js %}
+        <script src="{% static 'js/blog.js' %}"></script>
     {% endblock %}
 </head>
 <body>
@@ -32,6 +34,14 @@
 {% endif %}
 
 {% block content %}{% endblock %}
+
+<div class="modal fade" id="modal-contactform">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+      </div>
+    </div>
+</div>
 
 </body>
 </html>

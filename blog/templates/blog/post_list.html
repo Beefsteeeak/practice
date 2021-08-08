@@ -4,7 +4,14 @@
 
 {% block content %}
 
-    <p>Any problems? <a href="{% url 'blog:contact' %}">Contact us!</a></p>
+{#    <p>Any problems? <a href="{% url 'blog:contact' %}">Contact us!</a></p>#}
+
+    <p>
+        <button type="button" class="btn btn-primary js-contact" data-url="{% url 'blog:contact' %}">
+        <span class="glyphicon glyphicon-plus"></span>
+            Contact us!
+        </button>
+    </p>
 
     <table>
         <tr>

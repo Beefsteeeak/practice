@@ -7,7 +7,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, UpdateView
@@ -75,12 +77,6 @@ def post_creation(request):
                 'noreply@example.com',
                 ['admin@mail.com']
             )
-            # send_mail(
-            #     'Action',
-            #     'New post was added',
-            #     'noreply@example.com',
-            #     ['admin@mail.com']
-            # )
             messages.add_message(request, messages.SUCCESS, 'Post was successfully created')
             return redirect('blog:post-list')
     else:
@@ -125,12 +121,6 @@ def post_detail(request, pk):
                 'noreply@example.com',
                 'admin@mail.com'
             )
-            # send_mail(
-            #     'Action',
-            #     'New comment was added',
-            #     'noreply@example.com',
-            #     'admin@mail.com'
-            # )
             link = reverse('blog:post-detail', kwargs={"pk": pk})
             celery_send_email.delay(
                 'Action',
@@ -138,12 +128,6 @@ def post_detail(request, pk):
                 'noreply@example.com',
                 post_instance.user.email
             )
-            # send_mail(
-            #     'Action',
-            #     f'New comment was added {link}',
-            #     'noreply@example.com',
-            #     post_instance.user.email
-            # )
             return redirect('blog:post-list')
     else:
         form = CommentForm()
@@ -177,8 +161,35 @@ def post_user_list(request):
     )
 
 
+# def contact(request):
+#     if request.method == "POST":
+#         form = ContactForm(request.POST)
+#         if form.is_valid():
+#             email = form.cleaned_data['email']
+#             subject = form.cleaned_data['subject']
+#             text = form.cleaned_data['text']
+#             celery_send_email.delay(
+#                 subject,
+#                 text,
+#                 email,
+#                 'admin@mail.com'
+#             )
+#             messages.add_message(request, messages.SUCCESS, 'Message sent')
+#             return redirect('blog:post-list')
+#     else:
+#         form = ContactForm()
+#     return render(
+#         request,
+#         'blog/contact.html',
+#         context={
+#             'form': form,
+#         }
+#     )
+
+# Modal
 def contact(request):
-    if request.method == "POST":
+    data = dict()
+    if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
@@ -190,20 +201,12 @@ def contact(request):
                 email,
                 'admin@mail.com'
             )
-            # send_email(
-            #     subject,
-            #     text,
-            #     email,
-            #     'admin@mail.com'
-            # )
-            messages.add_message(request, messages.SUCCESS, 'Message sent')
-            return redirect('blog:post-list')
+            data['form_is_valid'] = True
+            data['html_successmessage'] = render_to_string('blog/includes/partial_successmessage.html')
+        else:
+            data['form_is_valid'] = False
     else:
         form = ContactForm()
-    return render(
-        request,
-        'blog/contact.html',
-        context={
-            'form': form,
-        }
-    )
+    context = {'form': form}
+    data['html_form'] = render_to_string('blog/includes/partial_contact.html', context, request=request)
+    return JsonResponse(data)

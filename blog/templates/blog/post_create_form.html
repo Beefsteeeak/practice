@@ -4,6 +4,13 @@
 
 {% block content %}
 
+    <p>
+        <button type="button" class="btn btn-primary js-contact" data-url="{% url 'blog:contact' %}">
+        <span class="glyphicon glyphicon-plus"></span>
+            Contact us!
+        </button>
+    </p>
+
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
         {{ form.as_p }}
