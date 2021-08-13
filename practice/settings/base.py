@@ -49,8 +49,10 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_celery_results',
     'widget_tweaks',
+    'rest_framework',
 
     'blog.apps.BlogConfig',
+    'drfapp.apps.DrfappConfig'
 ]
 
 MIDDLEWARE = [
@@ -166,3 +168,11 @@ CACHES = {
 }
 
 LOGIN_REDIRECT_URL = 'profile'
+
+# Django rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

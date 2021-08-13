@@ -26,6 +26,7 @@ urlpatterns = [
     path('accounts/update_profile/', UpdateProfile.as_view(), name='update_profile'),
     path('accounts/my_profile/', UserProfile.as_view(), name='profile'),
     path('blog/', include('blog.urls')),
+    path('api/', include('drfapp.urls')),
 ]
 
 if settings.DEBUG:
