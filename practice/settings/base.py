@@ -50,10 +50,19 @@ INSTALLED_APPS = [
     'django_celery_results',
     'widget_tweaks',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 
     'blog.apps.BlogConfig',
     'drfapp.apps.DrfappConfig'
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
