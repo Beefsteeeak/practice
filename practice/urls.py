@@ -20,13 +20,13 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/register/', RegisterFormView.as_view(), name='register'),
     path('accounts/update_profile/', UpdateProfile.as_view(), name='update_profile'),
     path('accounts/my_profile/', UserProfile.as_view(), name='profile'),
     path('blog/', include('blog.urls')),
     path('api/', include('drfapp.urls')),
+    path('admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
